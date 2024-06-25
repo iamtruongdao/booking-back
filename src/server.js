@@ -1,0 +1,20 @@
+import express from "express";
+import bodyParser from "body-parser";
+import viewEngine from "./config/viewEngine";
+import initRoute from "./routes/web";
+import connectDB from "./config/connectDB";
+import cors from "cors";
+require("dotenv").config();
+const port = process.env.PORT || 8181;
+const app = express();
+// app.use(bodyParser.json());
+// app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json({ limit: "50mb" }));
+app.use(bodyParser.urlencoded({ limit: "50mb", extended: true }));
+app.use(cors({ credentials: true, origin: true }));
+viewEngine(app);
+initRoute(app);
+connectDB();
+app.listen(port, () => {
+  console.log(`Example app listening on port ${port}`);
+});
